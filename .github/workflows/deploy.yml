@@ -34,7 +34,7 @@ jobs:
 
       - name: Build web (Expo export)
         run: |
-          npx --yes expo@latest export -p web
+          npx --yes expo@latest export -p web --public-url https://mikeferez59800-byte.github.io/ega-darras
           cp dist/index.html dist/404.html
 
       - name: Upload artifact
@@ -52,3 +52,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v4
+
