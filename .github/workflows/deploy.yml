@@ -29,7 +29,7 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Install dependencies (no lockfile)
+      - name: Install dependencies
         run: npm install --no-audit --no-fund --legacy-peer-deps
 
       - name: Build web (Expo export)
@@ -37,13 +37,9 @@ jobs:
           npx --yes expo@latest export -p web
           cp dist/index.html dist/404.html
 
-      # Ré-écriture des chemins absolus -> sous-chemin /ega-darras/
-      - name: Prefix absolute asset paths for GitHub Pages
+      - name: Disable service worker
         run: |
-          for f in dist/index.html dist/404.html; do
-            # prefixe tous les href="/..." et src="/..." avec /ega-darras/
-            sed -i 's|href="/|href="/ega-darras/|g; s|src="/|src="/ega-darras/|g' "$f"
-          done
+          rm -f dist/sw.js dist/service-worker.js dist/workbox-*.js 2>/dev/null || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
